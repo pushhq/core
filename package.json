@@ -1,0 +1,41 @@
+{
+  "name": "@push.io/core",
+  "version": "0.0.0",
+  "description": "Downstream tool for push.io",
+  "main": "index.js",
+  "typings": "lib/types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "xstate": "^4.29.0"
+  },
+  "scripts": {
+    "tsc": "tsc --init"
+  },
+  "keywords": [
+    "update",
+    "notification",
+    "publish",
+    "version",
+    "semver",
+    "log",
+    "push"
+  ],
+  "author": "Joshua Amaju",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  },
+  "directories": {
+    "src": "./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pushhq/core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pushhq/core/issues"
+  },
+  "homepage": "https://github.com/pushhq/core#readme"
+}
