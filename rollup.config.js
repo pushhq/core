@@ -1,29 +1,39 @@
 // @ts-check
 
 import { defineConfig } from "rollup";
-import typescript from 'rollup-plugin-typescript2';
+import typescript from "rollup-plugin-typescript2";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
+import { babel } from "@rollup/plugin-babel";
 import { terser } from "rollup-plugin-terser";
-// import commonjs from "@rollup/plugin-commonjs";
-// import externals from "rollup-plugin-node-externals";
 
 export default defineConfig({
   input: "./src/index.ts",
   output: [
     {
       format: "cjs",
+      sourcemap: "inline",
       file: "lib/index.js",
     },
     {
       format: "es",
+      sourcemap: "inline",
       file: "lib/index.es.js",
     },
     {
-      format: "umd",
+      format: "iife",
       name: "Pushio",
       file: "lib/index.umd.js",
+      globals: {
+        xstate: "xstate",
+        "xstate/lib/actions": "xstate",
+      },
     },
   ],
-  plugins: [nodeResolve(), typescript({useTsconfigDeclarationDir: true}), terser()],
-  external: ['xstate', 'xstate/lib/actions'],
+  plugins: [
+    nodeResolve(),
+    typescript({ useTsconfigDeclarationDir: true }),
+    babel({ babelHelpers: "bundled" }),
+    terser()
+  ],
+  external: ["xstate", "xstate/lib/actions"],
 });
