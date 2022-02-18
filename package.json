@@ -28,7 +28,8 @@
       "path": "./lib/index.es.js"
     },
     {
-      "path": "./lib/index.umd.js"
+      "path": "./lib/index.umd.js",
+      "limit": "5 KB"
     }
   ],
   "keywords": [
