@@ -22,8 +22,8 @@ type States =
     };
 
 const mismatch = (oldVersion: Ctx["version"], newVersion: Version) => {
-  const { version: b } = newVersion;
-  const { version: a } = oldVersion ?? {};
+  const { semver: b } = newVersion;
+  const { semver: a } = oldVersion ?? {};
   return b.major !== a?.major || b.minor !== a?.minor || b.patch !== a?.patch;
 };
 
@@ -76,9 +76,7 @@ const machine = (credentials: Credentials, platform?: Platform) => {
               {
                 actions: "setVersion",
                 target: "active.update",
-                cond: (_, { data }: { data?: Version }) => {
-                  return data && data.type !== "default" ? true : false;
-                },
+                cond: (_, { data }: { data?: Version }) => !!data,
               },
               {
                 target: "active",

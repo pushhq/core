@@ -9,7 +9,11 @@
   "author": "Joshua Amaju",
   "license": "ISC",
   "devDependencies": {
+    "parcel": "^2.4.0",
     "typescript": "^4.5.5",
-    "vite": "^2.8.1"
+    "vite": "^2.8.6"
+  },
+  "dependencies": {
+    "xstate": "^4.30.6"
   }
 }

@@ -1,17 +1,20 @@
-export type Credentials = { appId: string; apiKey: string };
-
-export type SemVer = { major: string; patch: string; minor: string };
+export type Credentials = { projectId: string; apiKey: string };
 
 export type Platform = "web" | "ios" | "android";
 
-export type Version = {
-  version: SemVer;
+export type SemVer = {
+  major: number;
+  minor: number;
+  patch: number;
   createdOn: string;
-  description: string;
-  type: "default" | undefined;
 };
 
-export type Response = {
-  data: Version;
-  status: "none" | "initial" | "available";
+export type Version = {
+  id: string;
+  name?: string;
+  semver: SemVer;
+  content: string;
+  createdOn: string;
+  status: "published";
+  platforms: Platform[];
 };

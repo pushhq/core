@@ -1,6 +1,6 @@
 import { assign, createMachine, sendParent } from "xstate";
 import { choose } from "xstate/lib/actions";
-import { Credentials, Platform } from "./types";
+import { Credentials, Platform, Version } from "./types";
 
 export type Context = {
   retries: number;
@@ -12,21 +12,21 @@ export type Events =
   | { type: "FORCE_REFRESH" }
   | { type: "ENABLE"; value: boolean };
 
-const baseURL = "http://localhost:4000/api";
+const baseURL = "http://localhost:8080/api";
 
 const maxBackoff = 60 * 1000; // default 1 minute
-const autoRefreshPeriod = 60 * 60 * 1000; // default 1 hour
+// const autoRefreshPeriod = 60 * 60 * 1000; // default 1 hour
 
-// const autoRefreshPeriod = 1000; // default 1 hour
+const autoRefreshPeriod = 500; // default 1 hour
 
 const machine = ({
-  appId,
   apiKey,
   platform,
+  projectId,
 }: Credentials & {
   platform?: Platform;
 }) => {
-  const url = `${baseURL}/${appId}/latest?apiKey=${apiKey}&platform=${platform}`;
+  const url = `${baseURL}/projects/${projectId}/versions/latest?api_key=${apiKey}`;
 
   return createMachine<Context, Events>(
     {
@@ -140,13 +140,19 @@ const machine = ({
         fetcher: async () => {
           const res = await fetch(url);
 
-          if (res.status === 200) return res.json();
+          if (res.status === 200) {
+            const json = (await res.json()) as Version;
+            if (platform && !json.platforms.includes(platform)) return null;
+            return json;
+          }
 
           // if (res.status === 429) {
           //   const after = res.headers.get("Retry-Afte");
           //   const reset = res.headers.get("RateLimit-Reset");
           //   const limit = res.headers.get("RateLimit-Limit");
           // }
+
+          return null;
         },
       },
     }
